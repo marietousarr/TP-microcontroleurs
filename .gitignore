@@ -2,9 +2,11 @@
 *.lst
 *.scvd
 *.sarr
-'Project GPIO'/Obj/
-'Project Timer'/Obj/
-'Project GPIO'/RTE/
-'Project Timer'/RTE/
-'Project GPIO'/DecbugConfig/
-'Project Timer'/DecbugConfig/
+'Projet GPIO'/Objects/
+'Projet Timer'/Objects/
+'Projet GPIO'/RTE/
+'Projet Timer'/RTE/
+'Projet GPIO'/DecbugConfig/
+'Projet Timer'/DecbugConfig/
+'Projet GPIO'/Listings/
+'Projet Timer'/Listings/
