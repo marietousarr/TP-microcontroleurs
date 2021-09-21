@@ -2,5 +2,7 @@
 *.scvd
 *.sarr
 Obj/
-RTE/
-DecbugConfig/
+'Project GPIO'/RTE/
+'Project Timer'/RTE/
+'Project GPIO'/DecbugConfig/
+'Project Timer'/DecbugConfig/
