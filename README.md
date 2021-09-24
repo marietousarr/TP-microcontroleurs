@@ -1,4 +1,5 @@
-# TP-microcontroleurs
-Sana Rakif
-Mariétou Sarr
-4IRB2
+# PRojet Marietou et Sana
+
+## 0xACCO
+- ajout .gitignore
+- ajout Readme.md

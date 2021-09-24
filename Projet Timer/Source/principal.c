@@ -1,7 +1,7 @@
-#include "stm32f10x.h"
-//#include "MyTimer.h"
+//#include "stm32f10x.h"
+#include "MyTimer.h"
 
-//MyTimer_Struct_TypeDef Timer;
+MyTimer_Struct_TypeDef Timer;
 
 int main(void)
 {
@@ -12,7 +12,7 @@ RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
 /*Timer.timer = TIM2;
 Timer.ARR = 9999;
 Timer.PSC = 1199;
-MyTimer_Base_Init (&Timer );
+MyTimer_Base_Init (&Timer);
 	
 MyTimer_Base_Start(Timer);
 while(1) 
