@@ -24,5 +24,13 @@ void MyTimer_Base_Init ( MyTimer_Struct_TypeDef * Timer );
 
 #define MyTimer_Base_Start( Timer ) ((Timer).timer ->CR1 = (Timer).timer ->CR1 | ( 1 << 0))
 
-#define MyTimer_Base_Stop( Timer ) (((Timer).timer-> SR & TIM_SR_UIF) ? (1) : (Timer).timer->SR &= ~(TIM_SR_UIF) )
+#define MyTimer_Base_Stop( Timer ) (((Timer).timer-> SR & TIM_SR_UIF) ? (1) : (Timer).timer ->CR1 = (Timer).timer ->CR1 & ~( 1 << 0) )
+
+/***************************************************************************************************
+* @brief
+* @param :-TIM_TypeDef*Timer  :   Timer concerne-char  Prio  :  de 0 a 15
+* @Note :   La  fonction   MyTimer_Base_Init  doit  avoir  ete  lancee au prealable
+***************************************************************************************************/
+
+void MyTimer_ActiveIT(TIM_TypeDef* Timer ,char Prio );
 #endif

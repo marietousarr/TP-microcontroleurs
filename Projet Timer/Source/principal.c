@@ -7,19 +7,26 @@ int main(void)
 {
 	
 RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+
 	
 	// Test avec fonctions
-/*Timer.timer = TIM2;
-Timer.ARR = 9999;
-Timer.PSC = 1199;
+Timer.timer = TIM2;
+Timer.ARR = 65454;
+Timer.PSC = 550;
 MyTimer_Base_Init (&Timer);
 	
+MyTimer_ActiveIT(Timer.timer ,0);
+	
 MyTimer_Base_Start(Timer);
-while(1) 
-	MyTimer_Base_Stop(Timer);
-*/
-//Test sans fonctions
+	
+while(1) {
+	//MyTimer_Base_Stop(Timer);
+	
+	}
 
+	
+//Test sans fonctions
+/*
 TIM2->ARR = 65454;
 TIM2->PSC = 550;
 TIM2->CR1 = TIM2->CR1 | ( 1 << 0);
@@ -29,7 +36,7 @@ TIM2->CR1 = TIM2->CR1 | ( 1 << 0);
     TIM2->SR = TIM2->SR & ~TIM_SR_UIF; // Remise à zéro de UIF
 		}
 	}
-
+*/
 
 	
 }
