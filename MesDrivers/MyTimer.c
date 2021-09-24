@@ -6,9 +6,9 @@ void TIM1_UP_IRQHandler(){
 }
 
 void TIM2_IRQHandler(){
-	TIM2->SR = TIM2-> SR & ~(1<<0);
+	TIM2->SR = TIM2->SR & ~TIM_SR_UIF;;
 	
-	GPIOA -> ODR = GPIOA -> ODR | (1<<5);
+	GPIOA -> ODR = GPIOA -> ODR ^ (1<<5);
 	
 }
 void TIM3_IRQHandler(){
