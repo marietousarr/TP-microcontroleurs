@@ -38,7 +38,7 @@ MyTimer_Base_Init (&Timer);
 MyTimer_Base_Start(Timer);
 
 PWMRatio(Timer.timer ,20);
-MyTimer_PWM(Timer.timer,1);
+MyTimer_PWM(Timer.timer,1); /// periode du timer 100khz
 
 while(1) {
 	//MyTimer_Base_Stop(Timer);
