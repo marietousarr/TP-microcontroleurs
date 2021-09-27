@@ -1,6 +1,7 @@
 --cpu Cortex-M3
 ".\objects\principal.o"
 ".\objects\mytimer.o"
+".\objects\driver_gpio.o"
 ".\objects\startup_stm32f10x_md.o"
 ".\objects\system_stm32f10x.o"
 --library_type=microlib --strict --scatter ".\Objects\gpio_réel.sct"
