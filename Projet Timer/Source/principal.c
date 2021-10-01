@@ -2,10 +2,8 @@
 #include "MyTimer.h"
 #include "Driver_GPIO.h"
 
-
 MyTimer_Struct_TypeDef Timer;
 MyGPIO_Struct_TypeDef broche_led;
-
 
 void Callback(){
 	MyGPIO_Toggle(GPIOA, 5);
@@ -15,7 +13,6 @@ int main(void)
 {
 	
 RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-
 RCC->APB2ENR |= (0x01 << 2) | (0x01 << 3) | (0x01 << 4) ; //on a écrit 1 au 2e, 3e et 4e bit de APB2ENR
 	
 // Paramètres led
@@ -27,25 +24,30 @@ broche_led.GPIO_Conf = Out_Ppull;
 
 MyGPIO_Init(&broche_led);
 	
-	// Test avec fonctions
+// Test avec fonctions
 Timer.timer = TIM2;
-Timer.ARR = 65454;
-Timer.PSC = 550;
+	
+	// Pour une periode de 500 ms
+//Timer.ARR = 65454;
+//Timer.PSC = 550;
+	
+	// Pour une fréquence de 100kHz  PSC x ARR = 720
+Timer.ARR = 72;
+Timer.PSC = 10;
+
 MyTimer_Base_Init (&Timer);
 	
 //MyTimer_ActiveIT(Timer.timer ,0, Callback);
 	
 MyTimer_Base_Start(Timer);
 
-PWMRatio(Timer.timer ,20);
-MyTimer_PWM(Timer.timer,1); /// periode du timer 100khz
+PWMRatio(Timer.timer ,20,3);
+MyTimer_PWM(Timer.timer,3); 
 
 while(1) {
 	//MyTimer_Base_Stop(Timer);
-	
 	}
 
-	
 //Test sans fonctions
 /*
 TIM2->ARR = 65454;
@@ -59,6 +61,5 @@ TIM2->CR1 = TIM2->CR1 | ( 1 << 0);
 	}
 */
 
-	
 }
 

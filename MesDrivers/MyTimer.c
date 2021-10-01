@@ -67,25 +67,77 @@ void MyTimer_ActiveIT(TIM_TypeDef* Timer ,char Prio, void (*IT_function) (void))
 
 void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 	
+	if (Channel == 1 || Channel == 2){
 	//mode 1 PWM
-	Timer -> CCMR1 = Timer -> CCMR1 | (1 <<6);
-	Timer -> CCMR1 = Timer -> CCMR1 | (1 <<5);
-	Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<4);
-	
-	Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<0);
-	Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<1);
-
-	
-
-	Timer -> CCMR1 = Timer -> CCMR1 | (1 <<3);
-	Timer -> CR1 = Timer -> CR1 | (1 <<7);
-	
-	Timer -> EGR = Timer -> EGR | (1 <<0);
-
-	Timer -> CCER = Timer -> CCER & ~(1<<1); // CC1P
-	Timer -> CCER = Timer -> CCER | (1<<0); //CC1E
-	Timer -> CCER = Timer -> CCER | (1<<2); //CC1EN
-
+		if (Channel == 1){
+			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<6); //OC1M
+			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<5);//OC1M
+			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<4); //OC&M
+			
+			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<0); // CC1S
+			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<1); // CC1S
+			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<3); // OCxPE
+			
+			
+			Timer -> CR1 = Timer -> CR1 | (1 <<7); //ARPE
+			Timer -> EGR = Timer -> EGR | (1 <<0); // UG bit
+			
+			Timer -> CCER = Timer -> CCER & ~(1<<1); // CC1P
+			Timer -> CCER = Timer -> CCER | (1<<0); //CC1E
+			Timer -> CCER = Timer -> CCER | (1<<2); //CC1EN
+					
+		} else {
+			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<14); //OCxM
+			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<13);//OCxM
+			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<12); //OCxM
+			
+			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<8); // CC1S
+			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<9); // CC1S
+			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<11); // OCxPE
+			
+			Timer -> CR1 = Timer -> CR1 | (1 <<7); //ARPE
+			Timer -> EGR = Timer -> EGR | (1 <<0); // UG bit
+			
+			Timer -> CCER = Timer -> CCER & ~(1<<5); // CC2P
+			Timer -> CCER = Timer -> CCER | (1<<4); //CC2E
+			Timer -> CCER = Timer -> CCER | (1<<6); //CC2EN
+			
+		}
+	} else if (Channel == 3 || Channel == 4){
+		if (Channel == 3){
+			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<6); //OC3M
+			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<5); //OC3M
+			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<4); //OC3M
+			
+			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<0); //CC3S
+			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<1); // CC3S
+			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<3); //OC3PE
+			
+			Timer -> CR1 = Timer -> CR1 | (1 <<7); //ARPE
+			Timer -> EGR = Timer -> EGR | (1 <<0); // UG bit
+			
+			Timer -> CCER = Timer -> CCER & ~(1<<9); // CC3P
+			Timer -> CCER = Timer -> CCER | (1<<8); //CC3E
+			Timer -> CCER = Timer -> CCER | (1<<10); //CC3EN
+			
+		} else {
+			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<14); //OC4M
+			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<13);//OC4M
+			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<12);//OC4M
+			
+			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<8); //CC3S
+			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<9);//CC3S
+			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<11);//OC4PE
+			
+			Timer -> CR1 = Timer -> CR1 | (1 <<7); //ARPE
+			Timer -> EGR = Timer -> EGR | (1 <<0); // UG bit
+				
+			Timer -> CCER = Timer -> CCER & ~(1<<13); // CC4P
+			Timer -> CCER = Timer -> CCER | (1<<12); //CC4E
+			Timer -> CCER = Timer -> CCER | (1<<14); //CC4EN
+		}
+	}
+		
 	Timer -> BDTR = Timer -> BDTR | (1<<15); //moe
 	Timer -> BDTR = Timer -> BDTR | (1<<10); //ossi
 	Timer -> BDTR = Timer -> BDTR | (1<<11); //ossR
@@ -95,8 +147,15 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 	Timer -> CR1 = Timer -> CR1 & ~(1 << 5); // CMS
 }
 
-void PWMRatio(TIM_TypeDef* Timer ,int ration){
+void PWMRatio(TIM_TypeDef* Timer ,int ration, char Channel){
 	int valeur = ration * (Timer -> ARR) /100;
-	Timer -> CCR1 = 	valeur;
+	if (Channel == 1)
+		Timer -> CCR1 = 	valeur;
+	else if (Channel == 2)
+		Timer -> CCR2 = 	valeur;
+	else if (Channel == 3)
+		Timer -> CCR3 = 	valeur;
+	else if (Channel == 4)
+		Timer -> CCR4 = 	valeur;
 }
 

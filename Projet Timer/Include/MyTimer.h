@@ -41,6 +41,6 @@ void MyTimer_ActiveIT(TIM_TypeDef* Timer ,char Prio, void (* IT_function) (void)
 *ni  le  r é glage de  la pé riode de  la PWM (ARR, PSC)*/
 void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ) ;
 
-void PWMRatio(TIM_TypeDef* Timer ,int ration);
+void PWMRatio(TIM_TypeDef* Timer ,int ration, char Channel);
 
 #endif
