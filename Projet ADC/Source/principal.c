@@ -13,6 +13,7 @@ RCC->APB1ENR |= RCC_APB1ENR_TIM4EN;
 
 RCC->APB2ENR |= (0x01 << 2) | (0x01 << 3) | (0x01 << 4) ; //on a écrit 1 au 2e, 3e et 4e bit de APB2ENR
 	
+	// 2 ADC sur cette puce
  
 
 while(1);
