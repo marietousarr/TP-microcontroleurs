@@ -13,6 +13,10 @@ int main(void)
 {
 	
 RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
+RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+RCC->APB1ENR |= RCC_APB1ENR_TIM4EN;
+
 RCC->APB2ENR |= (0x01 << 2) | (0x01 << 3) | (0x01 << 4) ; //on a écrit 1 au 2e, 3e et 4e bit de APB2ENR
 	
 // Paramètres led
@@ -25,15 +29,16 @@ broche_led.GPIO_Conf = Out_Ppull;
 MyGPIO_Init(&broche_led);
 	
 // Test avec fonctions
-Timer.timer = TIM2;
+Timer.timer = TIM1;
 	
 	// Pour une periode de 500 ms
 //Timer.ARR = 65454;
 //Timer.PSC = 550;
 	
 	// Pour une fréquence de 100kHz  PSC x ARR = 720
-Timer.ARR = 72;
-Timer.PSC = 10;
+	// 1/100kHz=      * PSC * ARR
+Timer.ARR = 720;
+Timer.PSC = 1;
 
 MyTimer_Base_Init (&Timer);
 	
@@ -41,8 +46,8 @@ MyTimer_Base_Init (&Timer);
 	
 MyTimer_Base_Start(Timer);
 
-PWMRatio(Timer.timer ,20,3);
-MyTimer_PWM(Timer.timer,3); 
+PWMRatio(Timer.timer ,20,1);
+MyTimer_PWM(Timer.timer,1); 
 
 while(1) {
 	//MyTimer_Base_Stop(Timer);

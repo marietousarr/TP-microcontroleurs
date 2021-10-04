@@ -67,9 +67,19 @@ void MyTimer_ActiveIT(TIM_TypeDef* Timer ,char Prio, void (*IT_function) (void))
 
 void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 	
-	if (Channel == 1 || Channel == 2){
 	//mode 1 PWM
 		if (Channel == 1){
+			
+			/*Timer -> CCMR1 = TIM_CCMR1_OC1M;
+			Timer -> CCMR1 = TIM_CCMR1_CC1S;
+			Timer -> CCMR1 = TIM_CCMR1_OC1PE;
+			Timer -> CCER = TIM_CCER_CC1E;
+			Timer -> CCER = TIM_CCER_CC1P;
+			Timer -> CCER = TIM_CCER_CC1NE;
+			Timer -> CR1 = TIM_CR1_ARPE;
+			Timer -> EGR = TIM_EGR_UG;
+			*/
+			
 			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<6); //OC1M
 			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<5);//OC1M
 			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<4); //OC&M
@@ -84,9 +94,9 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 			
 			Timer -> CCER = Timer -> CCER & ~(1<<1); // CC1P
 			Timer -> CCER = Timer -> CCER | (1<<0); //CC1E
-			Timer -> CCER = Timer -> CCER | (1<<2); //CC1EN
+			Timer -> CCER = Timer -> CCER | (1<<2); //CC1NE
 					
-		} else {
+		} else if (Channel == 2) {
 			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<14); //OCxM
 			Timer -> CCMR1 = Timer -> CCMR1 | (1 <<13);//OCxM
 			Timer -> CCMR1 = Timer -> CCMR1 & ~(1 <<12); //OCxM
@@ -102,9 +112,8 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 			Timer -> CCER = Timer -> CCER | (1<<4); //CC2E
 			Timer -> CCER = Timer -> CCER | (1<<6); //CC2EN
 			
-		}
-	} else if (Channel == 3 || Channel == 4){
-		if (Channel == 3){
+
+	} else if (Channel == 3){
 			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<6); //OC3M
 			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<5); //OC3M
 			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<4); //OC3M
@@ -120,7 +129,7 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 			Timer -> CCER = Timer -> CCER | (1<<8); //CC3E
 			Timer -> CCER = Timer -> CCER | (1<<10); //CC3EN
 			
-		} else {
+		} else if  (Channel == 4) {
 			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<14); //OC4M
 			Timer -> CCMR2 = Timer -> CCMR2 | (1 <<13);//OC4M
 			Timer -> CCMR2 = Timer -> CCMR2 & ~(1 <<12);//OC4M
@@ -136,13 +145,19 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 			Timer -> CCER = Timer -> CCER | (1<<12); //CC4E
 			Timer -> CCER = Timer -> CCER | (1<<14); //CC4EN
 		}
-	}
+
+		
+
+	//Timer -> BDTR = TIM_BDTR_MOE;
+	//Timer -> BDTR = TIM_BDTR_OSSI;
+	//Timer -> BDTR = TIM_BDTR_OSSR;
 		
 	Timer -> BDTR = Timer -> BDTR | (1<<15); //moe
 	Timer -> BDTR = Timer -> BDTR | (1<<10); //ossi
 	Timer -> BDTR = Timer -> BDTR | (1<<11); //ossR
 
 	// edge aligned mode 
+	//Timer -> CR1 = TIM_CR1_CMS_0;
 	Timer -> CR1 = Timer -> CR1 & ~(1 << 6); // CMS edge aligned mode 
 	Timer -> CR1 = Timer -> CR1 & ~(1 << 5); // CMS
 }
