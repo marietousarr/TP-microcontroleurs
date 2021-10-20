@@ -392,6 +392,18 @@
         </Group>
         <Group>
           <GroupName>DriversVoiler</GroupName>
+          <Files>
+            <File>
+              <FileName>Driver_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversVoilier\Driver_GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversVoilier\Timer.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
@@ -734,7 +746,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\DriversVoilier;.\Include</IncludePath>
+              <IncludePath>.\Include;..\DriversVoilier</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -787,6 +799,18 @@
         </Group>
         <Group>
           <GroupName>DriversVoiler</GroupName>
+          <Files>
+            <File>
+              <FileName>Driver_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversVoilier\Driver_GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversVoilier\Timer.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

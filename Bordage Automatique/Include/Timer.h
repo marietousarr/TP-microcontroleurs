@@ -26,11 +26,7 @@ void MyTimer_Base_Init ( MyTimer_Struct_TypeDef * Timer );
 
 #define MyTimer_Base_Stop( Timer ) (((Timer).timer-> SR & TIM_SR_UIF) ? (1) : (Timer).timer ->CR1 = (Timer).timer ->CR1 & ~( 1 << 0) )
 
-
-
 void MyTimer_EncoderMode( MyTimer_Struct_TypeDef * Timer );
-
-
 
 
 /* **@brief
