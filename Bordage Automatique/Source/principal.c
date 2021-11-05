@@ -2,11 +2,13 @@
 #include "Driver_GPIO.h"
 
 
-MyTimer_Struct_TypeDef Timer;
-MyTimer_Struct_TypeDef TimerS;
+MyTimer_Struct_TypeDef Timer; // encoder
+MyTimer_Struct_TypeDef TimerS; //timer de la pwm du servomoteur
 
 MyGPIO_Struct_TypeDef inputEncoder;
 MyGPIO_Struct_TypeDef inputEncoder1;
+MyGPIO_Struct_TypeDef inputEncoderI;
+
 
 MyGPIO_Struct_TypeDef outputPwm;
 
@@ -17,25 +19,34 @@ int rationPwm = 0;
 
 int main (){
 	
+	//enable des gpio et des timers
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 	RCC->APB2ENR |= (0x01 << 2) | (0x01 << 3) | (0x01 << 4) ; 
 	
+	//config des gpio pour le encoder
 	inputEncoder.GPIO = GPIOA;
 	inputEncoder.GPIO_Conf = In_Floating;
-	inputEncoder.GPIO_Pin = 0;
+	inputEncoder.GPIO_Pin = 0x00;
 	MyGPIO_Init(&inputEncoder);
 	
 	inputEncoder1.GPIO = GPIOA;
 	inputEncoder1.GPIO_Conf = In_Floating;
-	inputEncoder1.GPIO_Pin = 1;
+	inputEncoder1.GPIO_Pin = 0x01;
 	MyGPIO_Init(&inputEncoder1);
 	
+	inputEncoderI.GPIO = GPIOB;
+	inputEncoderI.GPIO_Conf = In_Floating;
+	inputEncoderI.GPIO_Pin = 0x00;
+	MyGPIO_Init(&inputEncoderI);
+	
+	//config des gpio pour la pwm
 	outputPwm.GPIO = GPIOA;
 	outputPwm.GPIO_Conf = AltOut_Ppull;
-	outputPwm.GPIO_Pin = 6;
+	outputPwm.GPIO_Pin = 0x06;
 	MyGPIO_Init(&outputPwm);
 	
+	//config timer pour le encoder mode
 	Timer.timer = TIM2;
 	Timer.ARR = 360*4; // resolution
 	Timer.PSC = 1;
@@ -43,29 +54,36 @@ int main (){
 	MyTimer_Base_Start(Timer);
 	MyTimer_EncoderMode(&Timer);
 	
+	//config timer pour la pwm
 	// communication de alpha au servomoteur 
 	TimerS.timer = TIM3;
-	// periode de 0.020s = psc * arr / 72MHz
+	// periode de 20ms = psc * arr / 72MHz
 	TimerS.ARR = 65454; // resolution
-	TimerS.PSC = 0.02 * 72000000 / 65454;
+	TimerS.PSC = (20/100) * 72000000 / 65454;
 	MyTimer_Base_Init(&TimerS);
 	MyTimer_Base_Start(TimerS);
 	
 	
+	//config pwm
+	MyTimer_PWM(TimerS.timer ,1);
+	
+	//init interrution pour remettre à 0 l'angle à un tour complet
+	init_EXIT(); 
 
 	while(1){
 		
 		k = Timer.timer -> CNT; //valeur à recuperer pour le encoder mode
+		
 		// calculer 'a à partir de k sacahnt que la resolution c'est arr
 		alpha = k/4;
 		
+		//calcul du teta correspondant
 		if (alpha <= 180 && alpha >= 45)
 			teta = alpha +45;
 		
-		rationPwm =(2-teta/90)*50;
+		//mise à jour du ratio de la pwm
+		rationPwm =(2-teta/90)*100/20;
 		PWMRatio( TimerS.timer, rationPwm, 1);
-		//config pwm
-		MyTimer_PWM(TimerS.timer ,1);
 	}
 	
 }

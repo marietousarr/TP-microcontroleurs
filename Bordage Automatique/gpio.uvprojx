@@ -396,7 +396,7 @@
             <File>
               <FileName>Driver_GPIO.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\DriversVoilier\Driver_GPIO.c</FilePath>
+              <FilePath>..\MesDrivers\Driver_GPIO.c</FilePath>
             </File>
             <File>
               <FileName>Timer.c</FileName>
@@ -746,7 +746,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Include;..\DriversVoilier</IncludePath>
+              <IncludePath>..\DriversVoilier;.\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -803,7 +803,7 @@
             <File>
               <FileName>Driver_GPIO.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\DriversVoilier\Driver_GPIO.c</FilePath>
+              <FilePath>..\MesDrivers\Driver_GPIO.c</FilePath>
             </File>
             <File>
               <FileName>Timer.c</FileName>

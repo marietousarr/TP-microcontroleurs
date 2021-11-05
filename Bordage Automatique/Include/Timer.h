@@ -38,4 +38,6 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ) ;
 
 void PWMRatio(TIM_TypeDef* Timer ,int ration, char Channel);
 
+void init_EXIT(void);
+
 #endif
