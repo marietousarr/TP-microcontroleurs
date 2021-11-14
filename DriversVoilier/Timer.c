@@ -1,7 +1,7 @@
 #include "Timer.h"
-#include <stdio.h>
+#include <math.h>
 
-extern MyTimer_Struct_TypeDef Timer;
+extern MyTimer_Struct_TypeDef TimerE;
 
 void MyTimer_Base_Init ( MyTimer_Struct_TypeDef * Timer ){
 	Timer -> timer -> ARR = Timer ->ARR;
@@ -108,8 +108,8 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 	Timer -> CR1 = Timer -> CR1 & ~(1 << 5); // CMS
 }
 
-void PWMRatio(TIM_TypeDef* Timer ,int ration, char Channel){
-	int valeur = ration * (Timer -> ARR) /100;
+void PWMRatio(TIM_TypeDef* Timer ,float ration, char Channel){
+	int valeur = round(ration * (Timer -> ARR) /100);
 	if (Channel == 1)
 		Timer -> CCR1 = 	valeur;
 	else if (Channel == 2)
@@ -133,7 +133,7 @@ void init_EXIT(){
 
 void EXTI0_IRQHandler(){
 	EXTI->PR |= EXTI_PR_PR0; //remise à 0 du pending bit
-	Timer.timer -> CNT = 0;
+	TimerE.timer -> CNT = 0;
 }
 
 

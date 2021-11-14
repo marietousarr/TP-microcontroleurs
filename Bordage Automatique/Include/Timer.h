@@ -13,10 +13,10 @@ unsigned short PSC;
 /*
 *****************************************************************************************
 * @brief
-* @param -> Paramètre sous forme d ’ une structure ( son adresse ) contenant l e s
+* @param -> Paramètre sous forme d ’ une structure ( son adresse ) contenant les
 informations de base
-* @Note -> Fonction à lancer syst ématiquement avant d ’ a l l e r plus en dé t a i l dans l e s
-conf plus f i n e s (PWM, codeur inc . . . )
+* @Note -> Fonction à lancer syst ématiquement avant d’aller plus en détail dans les
+configurations plus fines (PWM, codeur inc . . . )
 *************************************************************************************************
 */
 
@@ -26,18 +26,30 @@ void MyTimer_Base_Init ( MyTimer_Struct_TypeDef * Timer );
 
 #define MyTimer_Base_Stop( Timer ) (((Timer).timer-> SR & TIM_SR_UIF) ? (1) : (Timer).timer ->CR1 = (Timer).timer ->CR1 & ~( 1 << 0) )
 
+/* **@brief
+*@param-> Paramètre sous forme d’une structure ( son adresse ) contenant les
+informations de base sur le timer
+*@Note    Active  le mode Encoder sur le timer spécifié par la structure
+*la  gestion  de  la  configuration I/O n’est pas  faite dans cette fonction*/
 void MyTimer_EncoderMode( MyTimer_Struct_TypeDef * Timer );
 
+/* **@brief
+*@param -> une structure contenant les informations de base sur le timer associé à la pwm et
+*le channel sur laquelle la pwm sera émise 
+*@Note    Active  le mode pwm sur le timer spécifié et acitve le  channel spécifié sur ce dernier
+*la  gestion  de  la  configuration I/O n’est pas  faite dans cette fonction
+*ni  le  réglage de la période de la PWM (ARR, PSC)*/
+void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel );
 
 /* **@brief
-*@param   . . . .
-*@Note    Active  le  channel spé c i f i é suTimerr  le  timer  spé c i f i é
-*la  gestion  de  la  configuration   I /O n ’ est  pas  f a i t e  dans  cette  fonction
-*ni  le  r é glage de  la pé riode de  la PWM (ARR, PSC)*/
-void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ) ;
+*@param  -> une structure contenant les informations sur le timer associé, 
+* le ration de la pwm à mettre en oeuvre et le channel sur lequel la pwm sera émise
+*@Note   Communique au timer le ration de la pwm à émetrre*/
+void PWMRatio(TIM_TypeDef* Timer ,float ration, char Channel);
 
-void PWMRatio(TIM_TypeDef* Timer ,int ration, char Channel);
-
+/* **@brief
+*@Note   Cette fonction initialise une external interupt servant à remettre à 0 le compteur du Timer 
+*en Encoder mode*/
 void init_EXIT(void);
 
 #endif
