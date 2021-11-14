@@ -15,6 +15,17 @@ void MyTimer_EncoderMode( MyTimer_Struct_TypeDef * Timer ){
 	Timer -> timer -> SMCR |=TIM_SMCR_SMS_1;
 	Timer -> timer -> SMCR &= ~TIM_SMCR_SMS_2;
 	
+	
+	//input mode
+	Timer -> timer ->CCMR1 &= ~TIM_CCMR1_CC1S_1;
+	Timer -> timer ->CCMR1 |= TIM_CCMR1_CC1S_0;
+	
+	Timer -> timer ->CCMR1 &= ~TIM_CCMR1_CC2S_1;
+	Timer -> timer ->CCMR1 |= TIM_CCMR1_CC2S_0;
+	
+	Timer -> timer -> CCER &= ~TIM_CCER_CC1P;
+	Timer -> timer -> CCER &= ~TIM_CCER_CC2P;
+	
 	// Enabling 
 	Timer -> timer -> CR1 |= TIM_CR1_CEN;
 }
@@ -112,13 +123,12 @@ void PWMRatio(TIM_TypeDef* Timer ,int ration, char Channel){
 
 void init_EXIT(){
 	EXTI ->IMR |= EXTI_IMR_MR0; // enable interrupt request
-	EXTI->PR |= EXTI_PR_PR0; //enable pending register
-	EXTI->RTSR |= EXTI_RTSR_TR0; //rising trigger enable (détecte le front montant) 
+	EXTI->RTSR |= EXTI_RTSR_TR0; //rising trigger enable (détecte le front montant)
+	
+	AFIO -> EXTICR[0] |= AFIO_EXTICR1_EXTI0_PB; // input interuption vient de pb0
 	
 	//EXTI0 line 6 of nvic
 	NVIC_EnableIRQ(EXTI0_IRQn);
-	
-	AFIO -> EXTICR[1] |= AFIO_EXTICR1_EXTI0_PB; // input interuption vient de pb0
 }
 
 void EXTI0_IRQHandler(){
