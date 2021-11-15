@@ -1,9 +1,7 @@
 #include "Driver_GPIO.h"
 
 void MyGPIO_Init( MyGPIO_Struct_TypeDef * GPIOStructPtr){
-	
 	GPIOStructPtr -> GPIO -> CRL &= ~(0xF << (GPIOStructPtr->GPIO_Pin*4));
-	
 	GPIOStructPtr -> GPIO -> CRL |= (GPIOStructPtr->GPIO_Conf << GPIOStructPtr->GPIO_Pin*4);
 }
 

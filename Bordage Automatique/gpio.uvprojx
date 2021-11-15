@@ -403,6 +403,11 @@
               <FileType>1</FileType>
               <FilePath>..\DriversVoilier\Timer.c</FilePath>
             </File>
+            <File>
+              <FileName>Driver_Servomoteur.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversVoilier\Driver_Servomoteur.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -746,7 +751,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\DriversVoilier;.\Include</IncludePath>
+              <IncludePath>.\Include;..\DriversVoilier</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -809,6 +814,11 @@
               <FileName>Timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DriversVoilier\Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Driver_Servomoteur.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversVoilier\Driver_Servomoteur.c</FilePath>
             </File>
           </Files>
         </Group>

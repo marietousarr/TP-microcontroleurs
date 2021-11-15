@@ -1,6 +1,5 @@
 #ifndef MYTIMER_H
 #define MYTIMER_H
-
 #include "stm32f10x.h"
 
 typedef struct

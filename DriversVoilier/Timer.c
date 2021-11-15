@@ -1,7 +1,6 @@
 #include "Timer.h"
-#include <math.h>
 
-extern MyTimer_Struct_TypeDef TimerE;
+extern MyTimer_Struct_TypeDef TimerE; //Timer du principal.c en mode Encoder
 
 void MyTimer_Base_Init ( MyTimer_Struct_TypeDef * Timer ){
 	Timer -> timer -> ARR = Timer ->ARR;
@@ -109,7 +108,7 @@ void MyTimer_PWM(TIM_TypeDef* Timer ,char Channel ){
 }
 
 void PWMRatio(TIM_TypeDef* Timer ,float ration, char Channel){
-	int valeur = round(ration * (Timer -> ARR) /100);
+	int valeur = (int)(ration * (Timer -> ARR) /100);
 	if (Channel == 1)
 		Timer -> CCR1 = 	valeur;
 	else if (Channel == 2)

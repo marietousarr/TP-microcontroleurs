@@ -1,10 +1,10 @@
 #include "Timer.h"
 #include "Driver_GPIO.h"
-
+#include "Driver_Servomoteur.h"
 
 MyTimer_Struct_TypeDef TimerE; // Timer qui sera en encoder mode, le nom de cette variable n'est pas à modifier par l'utilisateur
 															// car elle est utilisé par le driver Timer.c
-															
+														
 MyTimer_Struct_TypeDef TimerP; //timer permettant d'emettre la pwm pour le servomoteur
 
 MyGPIO_Struct_TypeDef inputEncoderA; // Port de gpio pour le signal A de la girouette
@@ -17,7 +17,6 @@ MyGPIO_Struct_TypeDef outputPwm; // port de gpio sortant la pwm
 int k=0; // valeur pour calculer 'a (correspond au cnt du timer en encoder mode
 int alpha=0; //angle de la girouette
 int teta = 0; // angle des voiles
-float rationPwm = 0.0; //ration de la pwm
 
 int main (){
 	
@@ -79,7 +78,7 @@ int main (){
 		
 		// calcul de alpha à partir de k sachant que la resolution c'est arr
 		alpha = k/4;
-		
+	
 		//calcul du teta correspondant à la valeur de alpha
 		if (alpha >= 45 && alpha <= 180 )
 			teta = (90*alpha  -30*135)/135;
@@ -88,9 +87,7 @@ int main (){
 		else 
 			teta = 0;
 		
-		//mise à jour du ratio de la pwm
-		rationPwm =(2*90-teta)*100/(20*90);
-		PWMRatio( TimerP.timer, rationPwm, 1);
+		update_angle_servomoteur(TimerP.timer, teta);
 	}
 	
 }
